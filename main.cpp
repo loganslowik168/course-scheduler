@@ -6,20 +6,20 @@
 #include <set>
 #include <algorithm>
 #include <iomanip>
-#include "libs/json.hpp" // Ensure you have this header-only library
+#include "libs/json.hpp" 
 
 using json = nlohmann::json;
 using namespace std;
 
-enum SemesterType { FALL, SPRING, SUMMER };
+// --- Data Structures ---
 
 struct Course {
     string id;
     string name;
     int credits;
-    set<string> offered; // "Fall", "Spring", "Summer"
+    set<string> offered;
     set<string> prereqs;
-    set<string> concurrency; // Prereq with concurrency
+    set<string> concurrency;
 };
 
 struct Curriculum {
@@ -30,31 +30,120 @@ struct Curriculum {
 struct Student {
     string name;
     string major;
-    int currentSemesterIdx = 0;
+    int startSemesterOffset; 
+    int targetCredits;       
+    int targetGraduationTerm; // New: e.g., 8 for a standard 4-year graduation
     set<string> completedCourses;
+    int currentTermIdx = 0;
     vector<vector<string>> schedule;
 
-    bool isFinished(const Curriculum& cur) {
+    int getRemainingCredits(const Curriculum& cur) const {
+        int total = 0;
         for (auto const& [id, course] : cur.courseMap) {
-            if (completedCourses.find(id) == completedCourses.end()) return false;
+            if (completedCourses.find(id) == completedCourses.end()) {
+                total += course.credits;
+            }
         }
-        return true;
+        return total;
+    }
+
+    bool isFinished(const Curriculum& cur) {
+        return getRemainingCredits(cur) == 0;
     }
 };
 
-// Logic to load JSON into our C++ structures
+// --- Function Prototypes ---
+
+Curriculum loadCurriculum(string filename);
+set<string> getEligible(const Curriculum& cur, const Student& s, string term);
+bool canTakeWithConcurrency(const Curriculum& cur, const Student& s, string courseId);
+void finalizeTerm(vector<Student>& students);
+
+// --- Scheduler Class ---
+
+class Scheduler {
+public:
+    void generateSchedules(map<string, Curriculum>& curricula, vector<Student>& students) {
+        int maxTerms = 24; 
+        bool allFinished = false;
+
+        while (!allFinished && maxTerms > 0) {
+            allFinished = true;
+            map<int, set<string>> termEligible;
+            
+            for (int i = 0; i < (int)students.size(); ++i) {
+                if (!students[i].isFinished(curricula[students[i].major])) {
+                    allFinished = false;
+                    string termName = ((students[i].currentTermIdx + students[i].startSemesterOffset) % 2 == 0) ? "Fall" : "Spring";
+                    termEligible[i] = getEligible(curricula[students[i].major], students[i], termName);
+                    students[i].schedule.push_back({});
+                }
+            }
+
+            if (allFinished) break;
+
+            map<string, int> courseFrequency;
+            for (auto const& [idx, courses] : termEligible) {
+                for (const string& id : courses) courseFrequency[id]++;
+            }
+
+            vector<pair<string, int>> sortedCommon(courseFrequency.begin(), courseFrequency.end());
+            sort(sortedCommon.begin(), sortedCommon.end(), [](auto& a, auto& b) {
+                return a.second > b.second; 
+            });
+
+            vector<int> currentCredits(students.size(), 0);
+            
+            // Allocation Phase with Graduation Urgency
+            for (auto const& [courseId, freq] : sortedCommon) {
+                for (int i = 0; i < (int)students.size(); ++i) {
+                    if (termEligible[i].count(courseId)) {
+                        auto& cur = curricula[students[i].major];
+                        int courseCredits = cur.courseMap[courseId].credits;
+                        
+                        // Calculate "Urgency"
+                        int remainingTerms = students[i].targetGraduationTerm - students[i].currentTermIdx;
+                        int remainingCredits = students[i].getRemainingCredits(cur);
+                        
+                        // If they need more credits than their target allows to finish on time, 
+                        // the effective target is pushed upward (Max 21 for safety).
+                        int requiredAvg = (remainingTerms > 0) ? (remainingCredits / remainingTerms) : 21;
+                        int effectiveTarget = max(students[i].targetCredits, requiredAvg);
+                        effectiveTarget = min(effectiveTarget, 21); 
+
+                        bool highCommonality = (freq > 1);
+                        bool withinTarget = (currentCredits[i] + courseCredits <= effectiveTarget + 1);
+                        bool catchUpPush = (highCommonality && currentCredits[i] < 12);
+
+                        if ((withinTarget || catchUpPush) && 
+                            canTakeWithConcurrency(cur, students[i], courseId)) {
+                            
+                            students[i].schedule.back().push_back(courseId);
+                            currentCredits[i] += courseCredits;
+                        }
+                    }
+                }
+            }
+
+            finalizeTerm(students);
+            maxTerms--;
+        }
+    }
+};
+
+// --- Implementations ---
+
 Curriculum loadCurriculum(string filename) {
     ifstream file(filename);
-    json j;
-    file >> j;
-
+    if (!file.is_open()) throw runtime_error("Could not open " + filename);
+    json j; file >> j;
     Curriculum cur;
     cur.major = j["major"];
     for (auto& item : j["courses"]) {
         Course c;
         c.id = item["id"];
-        c.name = item["name"];
-        c.credits = item["credits"];
+        c.name = item.value("name", "");
+        c.credits = item.value("credits", 3);
         for (string s : item["offered"]) c.offered.insert(s);
         for (string p : item["prerequisites"]) c.prereqs.insert(p);
         for (string co : item["prereq_concurrency"]) c.concurrency.insert(co);
@@ -63,123 +152,89 @@ Curriculum loadCurriculum(string filename) {
     return cur;
 }
 
-class Scheduler {
-public:
-    void generateSchedules(Curriculum& ae, Curriculum& ee, Student& s1, Student& s2) {
-        int maxSemesters = 16; 
-        int creditLimit = 18;
-
-        while ((!s1.isFinished(ae) || !s2.isFinished(ee)) && s1.currentSemesterIdx < maxSemesters) {
-            s1.schedule.push_back({});
-            s2.schedule.push_back({});
-
-            string termName = (s1.currentSemesterIdx % 2 == 0) ? "Fall" : "Spring";
-
-            // Find what's available for each student this term
-            set<string> eligible1 = getEligible(ae, s1, termName);
-            set<string> eligible2 = getEligible(ee, s2, termName);
-
-            // Find the Overlap (Common Classes)
-            set<string> common;
-            for (const string& id : eligible1) {
-                if (eligible2.count(id)) common.insert(id);
+set<string> getEligible(const Curriculum& cur, const Student& s, string term) {
+    set<string> eligible;
+    for (auto const& [id, course] : cur.courseMap) {
+        if (s.completedCourses.count(id)) continue;
+        if (course.offered.find(term) == course.offered.end()) continue;
+        bool prereqsMet = true;
+        for (const string& p : course.prereqs) {
+            if (s.completedCourses.find(p) == s.completedCourses.end()) {
+                prereqsMet = false; break;
             }
+        }
+        if (prereqsMet) eligible.insert(id);
+    }
+    return eligible;
+}
 
-            int credits1 = 0, credits2 = 0;
+bool canTakeWithConcurrency(const Curriculum& cur, const Student& s, string courseId) {
+    const Course& c = cur.courseMap.at(courseId);
+    for (const string& coreq : c.concurrency) {
+        if (s.completedCourses.count(coreq)) continue;
+        bool takingNow = false;
+        for (const string& current : s.schedule.back()) {
+            if (current == coreq) { takingNow = true; break; }
+        }
+        if (!takingNow) return false;
+    }
+    return true;
+}
 
-            // 1. Prioritize Common Classes to maximize overlap
-            for (const string& id : common) {
-                if (credits1 + ae.courseMap[id].credits <= creditLimit && 
-                    credits2 + ee.courseMap[id].credits <= creditLimit) {
-                    s1.schedule.back().push_back(id);
-                    s2.schedule.back().push_back(id);
-                    credits1 += ae.courseMap[id].credits;
-                    credits2 += ee.courseMap[id].credits;
-                }
-            }
-
-            // 2. Fill remaining slots for Student 1 (Major Specific)
-            for (const string& id : eligible1) {
-                if (find(s1.schedule.back().begin(), s1.schedule.back().end(), id) != s1.schedule.back().end()) continue;
-                if (credits1 + ae.courseMap[id].credits <= creditLimit) {
-                    s1.schedule.back().push_back(id);
-                    credits1 += ae.courseMap[id].credits;
-                }
-            }
-
-            // 3. Fill remaining slots for Student 2 (Major Specific)
-            for (const string& id : eligible2) {
-                if (find(s2.schedule.back().begin(), s2.schedule.back().end(), id) != s2.schedule.back().end()) continue;
-                if (credits2 + ee.courseMap[id].credits <= creditLimit) {
-                    s2.schedule.back().push_back(id);
-                    credits2 += ee.courseMap[id].credits;
-                }
-            }
-
-            // Mark courses as completed for next iteration
-            for (string id : s1.schedule.back()) s1.completedCourses.insert(id);
-            for (string id : s2.schedule.back()) s2.completedCourses.insert(id);
-            
-            s1.currentSemesterIdx++;
-            s2.currentSemesterIdx++;
+void finalizeTerm(vector<Student>& students) {
+    for (auto& s : students) {
+        if (s.schedule.size() > (size_t)s.currentTermIdx) {
+            for (const string& id : s.schedule.back()) s.completedCourses.insert(id);
+            s.currentTermIdx++;
         }
     }
-
-private:
-    set<string> getEligible(const Curriculum& cur, const Student& s, string term) {
-        set<string> eligible;
-        for (auto const& [id, course] : cur.courseMap) {
-            if (s.completedCourses.count(id)) continue;
-            
-            // Check if course is offered this semester
-            if (course.offered.find(term) == course.offered.end()) continue;
-
-            // Check Hard Prereqs (must be done)
-            bool prereqsMet = true;
-            for (const string& p : course.prereqs) {
-                if (s.completedCourses.find(p) == s.completedCourses.end()) {
-                    prereqsMet = false; break;
-                }
-            }
-            if (!prereqsMet) continue;
-
-            // Note: Concurrency logic would check if the concurrency course is also in 'eligible'
-            eligible.insert(id);
-        }
-        return eligible;
-    }
-};
+}
 
 int main() {
     try {
-        Curriculum ae = loadCurriculum("course_data/UAH_BSAE.json");
-        Curriculum ee = loadCurriculum("course_data/UAH_BSEE.json");
+        map<string, Curriculum> curricula;
+        curricula["Aerospace"] = loadCurriculum("course_data/UAH_BSAE.json");
+        curricula["Electrical"] = loadCurriculum("course_data/UAH_BSEE.json");
 
-        Student s1 = {"Alice", "Aerospace"};
-        Student s2 = {"Bob", "Electrical"};
+        // Alice: Dual Enrollment, wants to graduate in 6 semesters (Accelerated)
+        Student alice = {"Alice", "Aerospace", 0, 15, 6};
+        alice.completedCourses = {"MA 171", "EH 101", "CH 121/125"}; 
 
+        // Bob: AP credits, standard 8-semester goal
+        Student bob = {"Bob", "Electrical", 0, 12, 8};
+        bob.completedCourses = {"MA 171", "MA 172"}; 
+
+        // Charlie: Only Calc 1, wants standard 8 semesters
+        Student charlie = {"Charlie", "Aerospace", 0, 16, 8};
+        charlie.completedCourses = {"MA 171"}; 
+
+        // Damian: No credits, wants to graduate in 8 semesters
+        Student damian = {"Damian", "Electrical", 0, 15, 8};
+        damian.completedCourses = {}; 
+
+        vector<Student> students = {alice, bob, charlie, damian};
         Scheduler scheduler;
-        scheduler.generateSchedules(ae, ee, s1, s2);
+        scheduler.generateSchedules(curricula, students);
 
-        cout << left << setw(15) << "Term" << setw(25) << "Alice (AE)" << " | " << "Bob (EE)" << endl;
-        cout << string(70, '-') << endl;
+        cout << left << setw(10) << "Term" << " | " << "Student (Hrs)" << " | " << "Schedule" << endl;
+        cout << string(85, '-') << endl;
 
-        for (int i = 0; i < s1.schedule.size(); ++i) {
-            string termLabel = "Sem " + to_string(i+1) + " (" + ((i%2==0)?"F":"S") + ")";
-            size_t rows = max(s1.schedule[i].size(), s2.schedule[i].size());
-            
-            for (size_t r = 0; r < rows; ++r) {
-                string c1 = (r < s1.schedule[i].size()) ? s1.schedule[i][r] : "";
-                string c2 = (r < s2.schedule[i].size()) ? s2.schedule[i][r] : "";
-                string shared = (c1 == c2 && !c1.empty()) ? " [SHARED]" : "";
-
-                cout << left << setw(15) << (r == 0 ? termLabel : "") 
-                     << setw(25) << c1 << " | " << c2 << shared << endl;
+        for (int t = 0; t < 12; ++t) {
+            bool termShown = false;
+            for (auto& s : students) {
+                if (t < (int)s.schedule.size() && !s.schedule[t].empty()) {
+                    int hrs = 0;
+                    for(auto& cid : s.schedule[t]) hrs += curricula[s.major].courseMap[cid].credits;
+                    string termLabel = (!termShown) ? "Sem " + to_string(t+1) : "";
+                    cout << left << setw(10) << termLabel << " | " << left << setw(15) << s.name + " (" + to_string(hrs) + ")" << " | ";
+                    for (size_t i = 0; i < s.schedule[t].size(); ++i)
+                        cout << s.schedule[t][i] << (i == s.schedule[t].size() - 1 ? "" : ", ");
+                    cout << endl;
+                    termShown = true;
+                }
             }
-            cout << endl;
+            if (termShown) cout << endl;
         }
-    } catch (exception& e) {
-        cerr << "Error: " << e.what() << endl;
-    }
+    } catch (exception& e) { cerr << e.what() << endl; return 1; }
     return 0;
 }
