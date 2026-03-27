@@ -1,0 +1,77 @@
+{
+  "major": "Mechanical",
+  "courses": [
+    {
+      "id": "MA 171",
+      "name": "Calculus A",
+      "credits": 4,
+      "offered": ["Fall", "Spring", "Summer"],
+      "prerequisites": [],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "PH 111/114",
+      "name": "General Physics I w/ Lab",
+      "credits": 4,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": [],
+      "prereq_concurrency": ["MA 172"]
+    },
+    {
+      "id": "MAE 100",
+      "name": "Intro to MAE",
+      "credits": 2,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": [],
+      "prereq_concurrency": ["MA 113"]
+    },
+    {
+      "id": "MAE 211",
+      "name": "Intro to Computational Tools",
+      "credits": 2,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["MA 171"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "MAE 271",
+      "name": "Statics",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["MA 172", "PH 111/114"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "MAE 272",
+      "name": "Dynamics",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["MAE 271", "MA 201"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "MAE 284",
+      "name": "Numerical Methods",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["MAE 211", "MA 201"],
+      "prereq_concurrency": ["MA 238"]
+    },
+    {
+      "id": "MAE 341",
+      "name": "Thermodynamics",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["MA 172", "PH 111/114"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "MAE 450",
+      "name": "ME Design I",
+      "credits": 3,
+      "offered": ["Fall"],
+      "prerequisites": ["MAE 311", "MAE 370", "MAE 488"],
+      "prereq_concurrency": []
+    }
+  ]
+}

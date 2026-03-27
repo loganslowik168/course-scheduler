@@ -195,6 +195,9 @@ int main() {
         map<string, Curriculum> curricula;
         curricula["Aerospace"] = loadCurriculum("course_data/UAH_BSAE.json");
         curricula["Electrical"] = loadCurriculum("course_data/UAH_BSEE.json");
+        curricula["Mechanical"] = loadCurriculum("course_data/UAH_BSME.json");
+        curricula["Computer"]   = loadCurriculum("course_data/UAH_BSCPE.json");
+        curricula["Chemical"]   = loadCurriculum("course_data/UAH_BSCHE.json");
 
         // Alice: Dual Enrollment, wants to graduate in 6 semesters (Accelerated)
         Student alice = {"Alice", "Aerospace", 0, 15, 6};
@@ -205,11 +208,11 @@ int main() {
         bob.completedCourses = {"MA 171", "MA 172"}; 
 
         // Charlie: Only Calc 1, wants standard 8 semesters
-        Student charlie = {"Charlie", "Aerospace", 0, 16, 8};
+        Student charlie = {"Charlie", "Chemical", 0, 16, 8};
         charlie.completedCourses = {"MA 171"}; 
 
         // Damian: No credits, wants to graduate in 8 semesters
-        Student damian = {"Damian", "Electrical", 0, 15, 8};
+        Student damian = {"Damian", "Computer", 0, 15, 8};
         damian.completedCourses = {}; 
 
         vector<Student> students = {alice, bob, charlie, damian};

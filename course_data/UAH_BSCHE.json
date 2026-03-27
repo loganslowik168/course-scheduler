@@ -1,0 +1,61 @@
+{
+  "major": "Chemical",
+  "courses": [
+    {
+      "id": "CH 121/125",
+      "name": "General Chemistry I w/ Lab",
+      "credits": 4,
+      "offered": ["Fall", "Spring", "Summer"],
+      "prerequisites": [],
+      "prereq_concurrency": ["MA 113"]
+    },
+    {
+      "id": "CH 123/126",
+      "name": "General Chemistry II w/ Lab",
+      "credits": 4,
+      "offered": ["Fall", "Spring", "Summer"],
+      "prerequisites": ["CH 121/125"],
+      "prereq_concurrency": ["MA 171"]
+    },
+    {
+      "id": "CHE 244",
+      "name": "Intro to Chemical Engineering",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["CH 123/126", "MA 171"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CH 331/335",
+      "name": "Organic Chemistry I w/ Lab",
+      "credits": 4,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["CH 123/126"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CHE 344",
+      "name": "Chemical Eng. Thermodynamics",
+      "credits": 3,
+      "offered": ["Fall"],
+      "prerequisites": ["CHE 244", "MA 201"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CHE 347",
+      "name": "Quantitative Modeling",
+      "credits": 3,
+      "offered": ["Spring"],
+      "prerequisites": ["CHE 244", "MA 238"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CHE 441",
+      "name": "Chemical Kinetics & Reactor Design",
+      "credits": 3,
+      "offered": ["Fall"],
+      "prerequisites": ["CHE 344", "CHE 347"],
+      "prereq_concurrency": []
+    }
+  ]
+}

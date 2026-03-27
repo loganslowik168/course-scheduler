@@ -1,0 +1,69 @@
+{
+  "major": "Computer",
+  "courses": [
+    {
+      "id": "MA 171",
+      "name": "Calculus A",
+      "credits": 4,
+      "offered": ["Fall", "Spring", "Summer"],
+      "prerequisites": [],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CS 121",
+      "name": "Computer Science I",
+      "credits": 3,
+      "offered": ["Fall", "Spring", "Summer"],
+      "prerequisites": ["MA 113"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "EE 202",
+      "name": "Intro to Digital Logic Design",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["CS 121"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "EE 213",
+      "name": "Electrical Circuit Analysis I",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["MA 172"],
+      "prereq_concurrency": ["PH 112/115"]
+    },
+    {
+      "id": "CPE 321",
+      "name": "Embedded Systems",
+      "credits": 3,
+      "offered": ["Fall"],
+      "prerequisites": ["CPE 221", "EE 202"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CPE 323",
+      "name": "Hardware/Software Co-Design",
+      "credits": 3,
+      "offered": ["Spring"],
+      "prerequisites": ["CPE 321"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CPE 431",
+      "name": "Computer Architecture",
+      "credits": 3,
+      "offered": ["Fall"],
+      "prerequisites": ["CPE 321"],
+      "prereq_concurrency": []
+    },
+    {
+      "id": "CS 317",
+      "name": "Intro to Design/Analysis of Algorithms",
+      "credits": 3,
+      "offered": ["Fall", "Spring"],
+      "prerequisites": ["CS 214", "MA 244"],
+      "prereq_concurrency": []
+    }
+  ]
+}
