@@ -1,0 +1,30 @@
+{
+  "major": "Cybersecurity",
+  "courses": [
+    { "id": "EH 101", "name": "English Composition I", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "EH 102", "name": "English Composition II", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EH 101"], "prereq_concurrency": [] },
+    { "id": "MA 171", "name": "Calculus A", "credits": 4, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "MA 172", "name": "Calculus B", "credits": 4, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 171"], "prereq_concurrency": [] },
+    { "id": "MA 201", "name": "Calculus C", "credits": 4, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 172"], "prereq_concurrency": [] },
+    { "id": "MA 238", "name": "Applied Differential Equations", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 172"], "prereq_concurrency": [] },
+    { "id": "MA 244", "name": "Introduction to Linear Algebra", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 172"], "prereq_concurrency": [] },
+    { "id": "CH 121/125", "name": "General Chemistry I w/ Lab", "credits": 4, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": ["MA 113"] },
+    { "id": "PH 111/114", "name": "General Physics I w/ Lab", "credits": 4, "offered": ["Fall", "Spring"], "prerequisites": [], "prereq_concurrency": ["MA 172"] },
+    { "id": "PH 112/115", "name": "General Physics II w/ Lab", "credits": 4, "offered": ["Fall", "Spring"], "prerequisites": ["PH 111/114"], "prereq_concurrency": ["MA 201"] },
+    { "id": "CS 121", "name": "Computer Science I", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": ["MA 113"] },
+    { "id": "EE 202", "name": "Intro to Digital Logic Design", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["CS 121"], "prereq_concurrency": [] },
+    { "id": "CPE 212", "name": "Fundamentals of Software Eng", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["CS 121"], "prereq_concurrency": [] },
+    { "id": "EE 213", "name": "Electrical Circuit Analysis I", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["MA 172"], "prereq_concurrency": ["PH 112/115"] },
+    { "id": "CPE 221", "name": "Computer Organization", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["EE 202"], "prereq_concurrency": [] },
+    { "id": "CPE 348", "name": "Intro to Computer Networks", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["CPE 212"], "prereq_concurrency": [] },
+    { "id": "CPE 353", "name": "Software Design & Engineering", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["CPE 212"], "prereq_concurrency": [] },
+    { "id": "CBSY 301", "name": "Computer & Network Security", "credits": 3, "offered": ["Fall"], "prerequisites": ["CPE 212", "EE 202"], "prereq_concurrency": [] },
+    { "id": "CBSY 401", "name": "Ethical Hacking & Pen Testing", "credits": 3, "offered": ["Spring"], "prerequisites": ["CBSY 301"], "prereq_concurrency": [] },
+    { "id": "CBSY 450", "name": "Cybersecurity Design I", "credits": 3, "offered": ["Fall"], "prerequisites": ["CBSY 301", "CPE 348", "CPE 353"], "prereq_concurrency": [] },
+    { "id": "CBSY 451", "name": "Cybersecurity Design II", "credits": 3, "offered": ["Spring"], "prerequisites": ["CBSY 450"], "prereq_concurrency": [] },
+    { "id": "FYE 101E", "name": "First Year Experience", "credits": 1, "offered": ["Fall"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "HIS 103", "name": "World History I", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "HUM ELECTIVE", "name": "Humanities/Arts Elective", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "SBS ELECTIVE", "name": "Social/Behavioral Science Elective", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] }
+  ]
+}

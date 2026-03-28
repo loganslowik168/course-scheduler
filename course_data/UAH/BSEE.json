@@ -1,0 +1,49 @@
+{
+  "major": "Electrical Engineering",
+  "courses": [
+    { "id": "EH 101", "name": "College Writing I", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "EH 102", "name": "College Writing II", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EH 101"], "prereq_concurrency": [] },
+
+    { "id": "MA 171", "name": "Calculus I", "credits": 4, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "MA 172", "name": "Calculus II", "credits": 4, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 171"], "prereq_concurrency": [] },
+    { "id": "MA 201", "name": "Calculus III", "credits": 4, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 172"], "prereq_concurrency": [] },
+    { "id": "MA 238", "name": "Applied Differential Equations", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": ["MA 201"] },
+    { "id": "MA 244", "name": "Introduction to Linear Algebra", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 172"], "prereq_concurrency": [] },
+
+    { "id": "CH 121", "name": "General Chemistry I", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": ["MA 113", "CH 125"] },
+    { "id": "CH 125", "name": "General Chemistry Lab I", "credits": 1, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": ["CH 121"] },
+
+    { "id": "PH 111", "name": "General Physics w/Calculus I", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 171"], "prereq_concurrency": ["PH 114"] },
+    { "id": "PH 114", "name": "General Physics Lab I", "credits": 1, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["PH 111"], "prereq_concurrency": [] },
+    { "id": "PH 112", "name": "General Physics w/Calculus II", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 172", "PH 111", "PH 114"], "prereq_concurrency": ["PH 115"] },
+    { "id": "PH 115", "name": "General Physics Lab II", "credits": 1, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": ["PH 112"] },
+    { "id": "PH 113", "name": "General Physics w/Calculus III", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["MA 201", "PH 112", "PH 115"], "prereq_concurrency": ["PH 116"] },
+    { "id": "PH 116", "name": "General Physics Lab III", "credits": 1, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["PH 113"], "prereq_concurrency": [] },
+
+    { "id": "FYE 101", "name": "Charger Success: Engineering", "credits": 1, "offered": ["Fall"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "EGR 101", "name": "Computing for Engineers", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "EGR 299", "name": "Engineering Mentoring I", "credits": 0, "offered": ["Fall", "Spring"], "prerequisites": ["EGR 101"], "prereq_concurrency": ["MA 201"] },
+    { "id": "EGR 399", "name": "Engineering Mentoring II", "credits": 0, "offered": ["Fall", "Spring"], "prerequisites": ["EGR 299"], "prereq_concurrency": ["EE 382"] },
+
+    { "id": "EE 202", "name": "Intro to Digital Logic Design", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EGR 101"], "prereq_concurrency": [] },
+    { "id": "EE 203", "name": "Digital Logic Design Lab", "credits": 1, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EE 202"], "prereq_concurrency": [] },
+    { "id": "CPE 211", "name": "Intro to Computer Programming in Engineering", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EGR 101"], "prereq_concurrency": ["MA 171", "CPE 211L"] },
+    { "id": "EE 215", "name": "Electrical Circuit Analysis I", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": [], "prereq_concurrency": ["PH 112", "MA 201"] },
+    { "id": "CPE 221", "name": "Computer Organization", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["CPE 211"], "prereq_concurrency": ["EE 202"] },
+    { "id": "EE 223", "name": "Design & Modeling of Electric Circuits & Systems", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["EE 202", "EE 215"], "prereq_concurrency": [] },
+    { "id": "EE 307", "name": "Electricity and Magnetism", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["PH 112", "MA 201", "EE 215"], "prereq_concurrency": [] },
+    { "id": "EE 308", "name": "Electromagnetic Engineering", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["EE 307"], "prereq_concurrency": [] },
+    { "id": "EE 310", "name": "Solid State Fundamentals", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["PH 113"], "prereq_concurrency": ["MA 238"] },
+    { "id": "EE 315", "name": "Introduction to Electronic Analysis and Design", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EE 215"], "prereq_concurrency": [] },
+    { "id": "EE 316", "name": "Electronic Measurements & Devices Design Lab", "credits": 1, "offered": ["Fall", "Spring"], "prerequisites": [], "prereq_concurrency": ["EE 315"] },
+    { "id": "ISE 321", "name": "Engineering Economy", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EGR 101"], "prereq_concurrency": [] },
+    { "id": "CPE 323", "name": "Intro to Embedded Computer Systems", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["CPE 221"], "prereq_concurrency": ["CPE 325"] },
+    { "id": "CPE 325", "name": "Embedded Systems Lab", "credits": 1, "offered": ["Fall", "Spring"], "prerequisites": [], "prereq_concurrency": ["CPE 323"] },
+    { "id": "EE 382", "name": "Analytical Meth for Continuous Time Sys", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EE 215", "MA 238", "MA 244"], "prereq_concurrency": [] },
+    { "id": "EE 383", "name": "Analytical Meth for Mult and Discr Time Sys", "credits": 3, "offered": ["Fall", "Spring", "Summer"], "prerequisites": ["EE 382"], "prereq_concurrency": [] },
+    { "id": "EE 384", "name": "Digital Signal Processing Laboratory", "credits": 1, "offered": ["Fall", "Spring"], "prerequisites": ["CPE 381"], "prereq_concurrency": ["EE 383"] },
+    { "id": "EE 385", "name": "Probability and Statistics for ECE", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["EGR 101", "MA 201", "MA 244"], "prereq_concurrency": [] },
+    { "id": "EE 386", "name": "Introduction to Control and Robotic Systems", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["CPE 381"], "prereq_concurrency": ["EE 382"] },
+    { "id": "EE 494", "name": "EE Design Projects", "credits": 3, "offered": ["Fall", "Spring"], "prerequisites": ["EE 223", "EE 307", "EE 315", "EE 383", "EE 385", "CPE 323", "ISE 321", "EGR 399"], "prereq_concurrency": [] }
+  ]
+}

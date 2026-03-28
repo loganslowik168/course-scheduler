@@ -1,0 +1,58 @@
+{
+  "major": "Industrial & Systems Engineering - Aerospace Systems",
+  "courses": [
+    { "id": "EH 101", "name": "College Writing I", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "EH 102", "name": "College Writing II", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["EH 101"], "prereq_concurrency": [] },
+
+    { "id": "MA 171", "name": "Calculus I", "credits": 4, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "MA 172", "name": "Calculus II", "credits": 4, "offered": ["Fall","Spring","Summer"], "prerequisites": ["MA 171"], "prereq_concurrency": [] },
+    { "id": "MA 201", "name": "Calculus III", "credits": 4, "offered": ["Fall","Spring","Summer"], "prerequisites": ["MA 172"], "prereq_concurrency": [] },
+    { "id": "MA 238", "name": "Applied Differential Equations", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["MA 201"] },
+    { "id": "MA 244", "name": "Introduction to Linear Algebra", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["MA 172"], "prereq_concurrency": [] },
+
+    { "id": "CH 121", "name": "General Chemistry I", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["MA 113","CH 125"] },
+    { "id": "CH 125", "name": "General Chemistry Lab I", "credits": 1, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["CH 121"] },
+
+    { "id": "PH 111", "name": "General Physics w/Calculus I", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["MA 171"], "prereq_concurrency": ["PH 114"] },
+    { "id": "PH 114", "name": "General Physics Lab I", "credits": 1, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["PH 111"] },
+    { "id": "PH 112", "name": "General Physics w/Calculus II", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["MA 172","PH 111","PH 114"], "prereq_concurrency": ["PH 115"] },
+    { "id": "PH 115", "name": "General Physics Lab II", "credits": 1, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["PH 112"] },
+
+    { "id": "FYE 101", "name": "Charger Success: Engineering", "credits": 1, "offered": ["Fall"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "EGR 101", "name": "Computing for Engineers", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "EGR 299", "name": "Engineering Mentoring I", "credits": 0, "offered": ["Fall","Spring"], "prerequisites": ["EGR 101"], "prereq_concurrency": ["MA 201"] },
+    { "id": "EGR 399", "name": "Engineering Mentoring II", "credits": 0, "offered": ["Fall","Spring"], "prerequisites": ["EGR 299"], "prereq_concurrency": ["ISE 391"] },
+
+    { "id": "ISE 224", "name": "Intro to Industrial & Systems Engineering", "credits": 3, "offered": ["Fall"], "prerequisites": ["EGR 101"], "prereq_concurrency": [] },
+    { "id": "MAE 271", "name": "Statics", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["EGR 101","PH 111"], "prereq_concurrency": ["MA 201"] },
+    { "id": "EE 213", "name": "Electrical Circuits", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["PH 112","MA 201"] },
+
+    { "id": "ISE 321", "name": "Engineering Economy", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["EGR 101"], "prereq_concurrency": [] },
+    { "id": "ISE 324", "name": "Work Design", "credits": 3, "offered": ["Fall"], "prerequisites": ["ISE 390"], "prereq_concurrency": [] },
+    { "id": "ISE 327", "name": "Management Systems Analysis", "credits": 3, "offered": ["Spring"], "prerequisites": ["ISE 390"], "prereq_concurrency": [] },
+    { "id": "ISE 340", "name": "Operations Research", "credits": 3, "offered": ["Fall"], "prerequisites": ["MA 244","ISE 390"], "prereq_concurrency": [] },
+
+    { "id": "MAE 341", "name": "Thermodynamics I", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["CH 121","PH 112","MA 201"], "prereq_concurrency": [] },
+    { "id": "MAE 370", "name": "Mechanics of Materials", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": ["MAE 271","MA 244"], "prereq_concurrency": ["MAE 375"] },
+    { "id": "MAE 375", "name": "Mechanics of Materials Lab", "credits": 1, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["MAE 370"] },
+
+    { "id": "ISE 390", "name": "Probability & Engineering Statistics I", "credits": 3, "offered": ["Fall","Spring","Summer"], "prerequisites": [], "prereq_concurrency": ["MA 201"] },
+    { "id": "ISE 391", "name": "Probability & Engineering Statistics II", "credits": 3, "offered": ["Spring"], "prerequisites": ["ISE 390"], "prereq_concurrency": [] },
+
+    { "id": "ISE 428", "name": "Systems Analysis & Design I", "credits": 3, "offered": ["Fall"], "prerequisites": ["ISE 224","ISE 321","ISE 391","EGR 399"], "prereq_concurrency": [] },
+    { "id": "ISE 429", "name": "Systems Analysis & Design II", "credits": 3, "offered": ["Spring"], "prerequisites": ["ISE 428"], "prereq_concurrency": [] },
+    { "id": "ISE 447", "name": "Intro to Systems Simulation", "credits": 3, "offered": ["Fall"], "prerequisites": ["EGR 101","ISE 391"], "prereq_concurrency": [] },
+
+    { "id": "ISE 328", "name": "T1", "credits": 3, "offered": ["Fall","Spring"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "ISE 426", "name": "T2", "credits": 3, "offered": ["Fall","Spring"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "ISE 480", "name": "T3", "credits": 3, "offered": ["Fall","Spring"], "prerequisites": [], "prereq_concurrency": [] },
+    
+    { "id": "MAE 200", "name": "T1", "credits": 3, "offered": ["Fall","Spring"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "MAE 272", "name": "T2", "credits": 3, "offered": ["Fall","Spring"], "prerequisites": [], "prereq_concurrency": [] },
+    { "id": "MAE 330", "name": "T3", "credits": 3, "offered": ["Fall","Spring"], "prerequisites": [], "prereq_concurrency": [] },
+
+    { "id": "ISE 423", "name": "Statistical Quality Control", "credits": 3, "offered": ["Spring"], "prerequisites": [], "prereq_concurrency": ["ISE 391"] },
+    { "id": "ISE 430", "name": "Manufacturing Systems & Facilities Design", "credits": 3, "offered": ["Fall"], "prerequisites": ["ISE 324"], "prereq_concurrency": [] },
+    { "id": "ISE 433", "name": "Production & Inventory Control Systems", "credits": 3, "offered": ["Spring"], "prerequisites": ["ISE 390"], "prereq_concurrency": [] }
+  ]
+}
